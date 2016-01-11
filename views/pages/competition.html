@@ -1,0 +1,281 @@
+<template name="competition">
+
+    <!-- Page heading -->
+    {{> pageHeading title='Competition'}}
+
+    <div class="wrapper wrapper-content animated fadeInUp">
+
+        <!--table of competitions-->
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>All competitions managed by director</h5>
+                <div class="ibox-tools">
+                    <button data-toggle="modal" href="#modal-new" class="btn btn-outline btn-primary dim" type="button"><i class="fa fa-plus"></i></button>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div class="row m-b-sm m-t-sm">
+                    <div class="col-md-1">
+                        <button type="button" id="loading-example-btn" class="btn btn-white btn-sm" ><i class="fa fa-refresh"></i> Refresh </button>
+                    </div>
+                    <div class="col-md-11">
+                        <div class="input-group"><input type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
+                            <button type="button" class="btn btn-sm btn-default"><i class="fa fa-times"></i></button> </span></div>
+                    </div>
+                </div>
+
+                <div class="project-list">
+                    <table class="table table-hover">
+                        <tbody>
+                        {{#each competitions}}
+                            <tr align="left">
+                                <td class="project-status">
+                                    <button class="btn btn-xs btn-warning" type="button"><i class="fa fa-warning"></i> <span class="bold"> Pending </span></button>
+                                </td>
+                                <td class="project-title">
+                                    <a href="{{pathFor route='competitionDetail'}}"> {{title}} </a>
+                                    <br/>
+                                    <small>Created at  {{formatDate createdAt}}</small>
+                                </td>
+                                <td class="project-completion">
+                                    {{#if date}}
+                                        <small>{{toDate date}}</small>
+                                    {{else}}
+                                        <small>date was not set</small>
+                                    {{/if}}
+                                    <div class="progress progress-mini">
+                                        <div style="width: 8%;" class="progress-bar"></div>
+                                    </div>
+                                </td>
+                                <td class="project-title" align="center">
+                                    <small><i class="fa fa-map-marker"></i> Located at </small>
+                                    <br/>
+                                    {{#if location.city}}
+                                        <a>{{location.city}}</a>
+                                    {{else}}
+                                        <a>?</a>
+                                    {{/if}}
+                                </td>
+                                <td class="project-title" align="center">
+                                    <small><i class="fa fa-users"></i> Competitors </small>
+                                    <br/>
+                                    <a>0</a>
+                                </td>
+                                <td class="project-title" align="center">
+                                    <small><i class="fa fa-clock-o"></i> Starting </small>
+                                    <br/>
+                                    {{#if time}}
+                                        <a>{{time}}</a>
+                                    {{else}}
+                                        <a>?</a>
+                                    {{/if}}
+                                </td>
+                                <td class="project-actions">
+                                    <a href="{{pathFor route='competitionDetail'}}" class="btn btn-outline btn-circle btn-id" type="button"><i class="fa fa-info"></i></a>
+                                    <a data-toggle="modal" href="#modal-edit" class="btn btn-outline btn-circle btn-id" type="button"><i class="fa fa-pencil"></i></a>
+                                    <a class="btn btn-outline btn-circle btn-id" type="button"><i class="fa fa-times"></i></a>
+                                </td>
+                            </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!--modal of creating new competition-->
+        <div id="modal-new" class="modal fade" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form id="new-competition" class="wizard-big white-bg form-horizontal">
+                            <h1>Title</h1>
+                            <fieldset>
+                                <div style="background:transparent !important" class="jumbotron">
+                                    <h1>New Campaign</h1>
+                                    <p>First thing first, we need a title to get started.</p>
+                                    <input name="title" type="text" class="form-control" placeholder="Title." required>
+                                </div>
+                            </fieldset>
+                            <h1>Overview</h1>
+                            <fieldset>
+                                <h5>You are always able to edit it later.</h5>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">Organizer</label>
+                                    <div class="col-lg-10">
+                                        <input name="organizer" type="text" class="form-control" maxlength="50" placeholder="Organizer."/>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">Phone</label>
+                                    <div class="col-lg-5">
+                                        <div class="input-group">
+                                            <input name="business" type="text" class="form-control" placeholder="Business." maxlength="11"/>
+                                            <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <div class="input-group">
+                                            <input name="fax" type="text" class="form-control" placeholder="Fax." maxlength="11"/>
+                                            <span class="input-group-addon"><i class="fa fa-fax"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">Email</label>
+                                    <div class="col-lg-10">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">@</span>
+                                            <input name="email" type="email" class="form-control" placeholder="yourname@domain.com" maxlength="254"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">Time</label>
+                                    <div class="col-lg-4">
+                                        <div id="timePicker" class="input-group clockpicker" data-autoclose="true">
+                                            <input name="time" type="text" class="form-control" onkeydown="return false" maxlength="10">
+                                            <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label class="control-label col-lg-4 pull-left">Date</label>
+                                        <div id="datePicker" class="input-group date col-lg-8">
+                                            <input name="date" type="text" class="form-control" onkeydown="return false" maxlength="10">
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">Location</label>
+                                    <div class="col-lg-10 m-b">
+                                        <input name="street" type="text" placeholder="Street." class="form-control" maxlength="95">
+                                    </div>
+                                    <div class="col-lg-3 col-lg-offset-2 m-b">
+                                        <input name="city" type="text" placeholder="City." class="form-control" maxlength="30">
+                                    </div>
+                                    <div class="col-lg-3 m-b">
+                                        <input name="state" type="text" placeholder="State." class="form-control" maxlength="3">
+                                    </div>
+                                    <div class="col-lg-4 m-b">
+                                        <input name="zipCode" type="text" placeholder="ZIP Code." class="form-control" maxlength="6">
+                                    </div>
+                                    <div class="col-lg-10 col-lg-offset-2">
+                                        <input name="country" type="text" placeholder="Country." class="form-control" maxlength="3">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed  m-b-lg"></div>
+                                <p class="text-right text-muted">A complete overview will help online registration for participators,<br>Please fill in as much detail as you can,<br>Thanks for you time and patient!</p>
+                            </fieldset>
+                            <h1>Flow</h1>
+                            <fieldset>
+                                <div style="background:transparent !important" class="jumbotron">
+                                    <h1>Next Step</h1>
+                                    <p>You can manage the detail of this campaign in detail page by click the edit button or title.<br>There you can add your structure, judges and competitiors.</p>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--modal of editing overview-->
+        <div id="modal-edit" class="modal fade" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form id="edit-competition" class="form-horizontal">
+                            <div class="row m-t">
+                                <div class="col-lg-10">
+                                    <br>
+                                    <h2>{{competition.title}}</h2>
+                                </div>
+                                <div class="col-lg-2">
+                                    <button class="btn btn-primary btn-circle btn-lg pull-right" type="submit"><i class="fa fa-check"></i></button>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">Organizer</label>
+                                <div class="col-lg-10">
+                                    <input name="organizer" type="text" class="form-control" maxlength="50" placeholder="Organizer." value="{{competition.organizer}}"/>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">Phone</label>
+                                <div class="col-lg-5">
+                                    <div class="input-group">
+                                        <input name="business" type="text" class="form-control" placeholder="Business." maxlength="11" value="{{competition.phone.business}}"/>
+                                        <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5">
+                                    <div class="input-group">
+                                        <input name="fax" type="text" class="form-control" placeholder="Fax." maxlength="11" value="{{competition.phone.fax}}"/>
+                                        <span class="input-group-addon"><i class="fa fa-fax"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">Email</label>
+                                <div class="col-lg-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">@</span>
+                                        <input name="email" type="email" class="form-control" placeholder="yourname@domain.com" maxlength="254" value="{{competition.email}}"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">Time</label>
+                                <div class="col-lg-4">
+                                    <div id="timePicker" class="input-group clockpicker" data-autoclose="true">
+                                        <input name="time" type="text" class="form-control" onkeydown="return false" maxlength="10" value="{{competition.time}}">
+                                        <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="control-label col-lg-4 pull-left">Date</label>
+                                    <div id="datePicker" class="input-group date col-lg-8">
+                                        <input name="date" type="text" class="form-control" onkeydown="return false" maxlength="10" value="{{formatDate competition.date}}">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">Location</label>
+                                <div class="col-lg-10 m-b">
+                                    <input name="street" type="text" placeholder="Street." class="form-control" maxlength="95" value="{{competition.location.street}}">
+                                </div>
+                                <div class="col-lg-3 col-lg-offset-2 m-b">
+                                    <input name="city" type="text" placeholder="City." class="form-control" maxlength="30" value="{{competition.location.city}}">
+                                </div>
+                                <div class="col-lg-3 m-b">
+                                    <input name="state" type="text" placeholder="State." class="form-control" maxlength="3" value="{{competition.location.state}}">
+                                </div>
+                                <div class="col-lg-4 m-b">
+                                    <input name="zipCode" type="text" placeholder="ZIP Code." class="form-control" maxlength="6" value="{{competition.location.zipCode}}">
+                                </div>
+                                <div class="col-lg-10 col-lg-offset-2">
+                                    <input name="country" type="text" placeholder="Country." class="form-control" maxlength="3" value="{{competition.location.country}}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed  m-b-lg"></div>
+                            <p class="text-right text-muted">A complete overview will help online registration for participators,<br>Please fill in as much detail as you can,<br>Thanks for you time and patient!</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</template>

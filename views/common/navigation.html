@@ -1,0 +1,281 @@
+<template name="navigation">
+    <!--nav bar for main layout-->
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">Director</strong>
+                             </span> <span class="text-muted text-xs block">{{ currentUser.username }}<b class="caret"></b></span> </span> </a>
+                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                            <li><a data-toggle="modal" href="#modal-profile">Profile</a></li>
+                            <li><a data-toggle="modal" href="#modal-organization">Organization</a></li>
+                            <li><a data-toggle="modal" href="#modal-account">Account</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{{pathFor route='login'}}">Logout</a></li>
+                        </ul>
+                    </div>
+                    <div class="logo-element">
+                        Jin-G
+                    </div>
+                </li>
+                <li class="{{isActiveRoute regex='summary'}}">
+                    <a href="{{pathFor route='summary'}}"><i class="fa fa-area-chart"></i> <span class="nav-label" data-i18n="nav.layouts">Summary</span> </a>
+                </li>
+                <li class="{{isActiveRoute regex='competition'}}">
+                    <a href="{{pathFor route='competition'}}"><i class="fa fa-diamond"></i> <span class="nav-label" data-i18n="nav.layouts">Competition</span> </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!--profile modal-->
+    <div id="modal-profile" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form id="form-profile" class="form-horizontal" autocomplete="off">
+                        <div class="row m-t">
+                            <div class="col-lg-10">
+                                <br>
+                                <h3>Director's profile</h3>
+                            </div>
+                            <div class="col-lg-2">
+                                <button class="btn btn-primary btn-circle btn-lg pull-right" type="submit"><i class="fa fa-check"></i></button>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Name</label>
+                            <div class="col-xs-3">
+                                <input name="firstName" type="text" class="form-control" maxlength="35" placeholder="First." value="{{ currentUser.profile.name.firstName }}"/>
+                            </div>
+                            <div class="col-xs-3">
+                                <input name="lastName" type="text" class="form-control" maxlength="35" placeholder="Last." value="{{ currentUser.profile.name.lastName }}"/>
+                            </div>
+                            <div class="col-xs-4">
+                                <input name="middleName" type="text" class="form-control" maxlength="35" placeholder="Middle." value="{{ currentUser.profile.name.middleName }}"/>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Gender</label>
+                            <div class="col-lg-4">
+                                <div class="radio radio-info radio-inline control-label">
+                                    {{#if $eq currentUser.profile.gender "male"}}
+                                        <input type="radio" value="male" name="gender" checked="checked"/>
+                                    {{else}}
+                                        <input type="radio" value="male" name="gender"/>
+                                    {{/if}}
+                                    <label for="inlineRadio1"> M. </label>
+                                </div>
+                                <div class="radio radio-danger radio-inline control-label">
+                                    {{#if $eq currentUser.profile.gender "female"}}
+                                        <input type="radio" value="female" name="gender" checked="checked"/>
+                                    {{else}}
+                                        <input type="radio" value="female" name="gender"/>
+                                    {{/if}}
+                                    <label for="inlineRadio2"> F. </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="control-label col-lg-4 pull-left">Birthday</label>
+                                <div id="birthdayPicker" class="input-group date col-lg-8">
+                                    <input name="birthday" type="text" class="form-control" onkeydown="return false" maxlength="10" value="{{ currentUser.profile.birthday }}">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Phone</label>
+                            <div class="col-lg-5">
+                                <div class="input-group">
+                                    <input name="mobile" type="text" class="form-control" placeholder="Mobile." maxlength="11" value="{{ currentUser.profile.phone.mobile }}"/>
+                                    <span class="input-group-addon"><i class="fa fa-mobile"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="input-group">
+                                    <input name="business" type="text" class="form-control" placeholder="Business." maxlength="11" value="{{ currentUser.profile.phone.business }}"/>
+                                    <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Email</label>
+                            <div class="col-lg-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon">@</span>
+                                    <input name="email" type="email" class="form-control" placeholder="yourname@domain.com" maxlength="254" value="{{ currentUser.profile.email }}"/>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Address</label>
+                            <div class="col-lg-10 m-b">
+                                <input name="street" type="text" placeholder="Street." class="form-control" maxlength="95" value="{{ currentUser.profile.address.street }}">
+                            </div>
+                            <div class="col-lg-3 col-lg-offset-2 m-b">
+                                <input name="city" type="text" placeholder="City." class="form-control" maxlength="30" value="{{ currentUser.profile.address.city }}">
+                            </div>
+                            <div class="col-lg-3 m-b">
+                                <input name="state" type="text" placeholder="State." class="form-control" maxlength="3" value="{{ currentUser.profile.address.state }}">
+                            </div>
+                            <div class="col-lg-4 m-b">
+                                <input name="zipCode" type="text" placeholder="ZIP Code." class="form-control" maxlength="6" value="{{ currentUser.profile.address.zipCode }}">
+                            </div>
+                            <div class="col-lg-10 col-lg-offset-2">
+                                <input name="country" type="text" placeholder="Country." class="form-control" maxlength="3" value="{{ currentUser.profile.address.country }}">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed m-b-lg"></div>
+                        <p class="text-right">A complete profile will always help managing the future,<br>Thanks for you time and patient!</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--organization modal-->
+    <div id="modal-organization" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form id="form-organization" class="form-horizontal" autocomplete="off">
+                        <div class="row m-t">
+                            <div class="col-lg-10">
+                                <br>
+                                <h3>Director's organization</h3>
+                            </div>
+                            <div class="col-lg-2">
+                                <button class="btn btn-primary btn-circle btn-lg pull-right" type="submit"><i class="fa fa-check"></i></button>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Name</label>
+                            <div class="col-lg-10">
+                                <input name="title" type="text" class="form-control" maxlength="50" placeholder="Organization title." value="{{organization.title}}"/>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Phone</label>
+                            <div class="col-lg-5">
+                                <div class="input-group">
+                                    <input name="business" type="text" class="form-control" placeholder="Business." maxlength="11" value="{{organization.phone.business}}"/>
+                                    <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="input-group">
+                                    <input name="fax" type="text" class="form-control" placeholder="Fax." maxlength="11" value="{{organization.phone.fax}}"/>
+                                    <span class="input-group-addon"><i class="fa fa-fax"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Email</label>
+                            <div class="col-lg-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon">@</span>
+                                    <input name="email" type="email" class="form-control" placeholder="yourname@domain.com" maxlength="254" value="{{organization.email}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Website</label>
+                            <div class="col-lg-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-globe"></i></span>
+                                    <input name="website" type="text" class="form-control" placeholder="http://www.example.com" maxlength="253" value="{{organization.website}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Address</label>
+                            <div class="col-lg-10 m-b">
+                                <input name="street" type="text" placeholder="Street." class="form-control" maxlength="95" value="{{organization.address.street}}">
+                            </div>
+                            <div class="col-lg-3 col-lg-offset-2 m-b">
+                                <input name="city" type="text" placeholder="City." class="form-control" maxlength="30" value="{{organization.address.city}}">
+                            </div>
+                            <div class="col-lg-3 m-b">
+                                <input name="state" type="text" placeholder="State." class="form-control" maxlength="3" value="{{organization.address.state}}">
+                            </div>
+                            <div class="col-lg-4 m-b">
+                                <input name="zipCode" type="text" placeholder="ZIP Code." class="form-control" maxlength="6" value="{{organization.address.zipCode}}">
+                            </div>
+                            <div class="col-lg-10 col-lg-offset-2">
+                                <input name="country" type="text" placeholder="Country." class="form-control" maxlength="3" value="{{organization.address.country}}">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed  m-b-lg"></div>
+                        <p class="text-right">A complete profile will always help managing the future,<br>Thanks for you time and patient!</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--account modal-->
+    <div id="modal-account" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form id="form-account" class="form-horizontal" autocomplete="off">
+                        <div class="form-group">
+                            <br>
+                            <h3>Director's account</h3>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Username</label>
+                            <div class="col-lg-6">
+                                <h3><strong>{{currentUser.username}}</strong></h3>
+
+                                <p>Plase make sure it's you.</p>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Password</label>
+                            <div class="col-lg-6">
+                                <input name="oldPassword" type="password" class="form-control" maxlength="20" placeholder="." required/>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">New password</label>
+                            <div class="col-lg-6">
+                                <input name="newPassword" type="password" class="form-control" maxlength="20" placeholder="." required/>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Confirm</label>
+                            <div class="col-lg-6">
+                                <input name="confirm" type="password" class="form-control" maxlength="20" placeholder="." required/>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group m-t-lg">
+                            <div class="col-lg-4 col-lg-offset-4">
+                                <button id="loading" type="submit" ladda="loading" ng-click="runLoading()" class="ladda-button btn btn-primary" data-style="expand-left"><span class="ladda-label">Submit</span><span class="ladda-spinner"></span></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</template>
