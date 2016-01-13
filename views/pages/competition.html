@@ -33,7 +33,7 @@
                                     <button class="btn btn-xs btn-warning" type="button"><i class="fa fa-warning"></i> <span class="bold"> Pending </span></button>
                                 </td>
                                 <td class="project-title">
-                                    <a href="{{pathFor route='competitionDetail'}}"> {{title}} </a>
+                                    <a href="/detail/{{_id}}"> {{title}} </a>
                                     <br/>
                                     <small>Created at  {{formatDate createdAt}}</small>
                                 </td>
@@ -71,7 +71,7 @@
                                     {{/if}}
                                 </td>
                                 <td class="project-actions">
-                                    <a href="{{pathFor route='competitionDetail'}}" class="btn btn-outline btn-circle btn-id" type="button"><i class="fa fa-info"></i></a>
+                                    <a href="/detail/{{_id}}" class="btn btn-outline btn-circle btn-id" type="button"><i class="fa fa-info"></i></a>
                                     <a data-toggle="modal" href="#modal-edit" class="btn btn-outline btn-circle btn-id" type="button"><i class="fa fa-pencil"></i></a>
                                     <a class="btn btn-outline btn-circle btn-id" type="button"><i class="fa fa-times"></i></a>
                                 </td>

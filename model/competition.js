@@ -1,5 +1,17 @@
 Competitions = new Mongo.Collection('competitions');
 
+Schema.Group = new SimpleSchema({
+    id: {
+        type: String
+    },
+    parent: {
+        type: String
+    },
+    text: {
+        type: String
+    }
+});
+
 Schema.Competition = new SimpleSchema({
     title: {
         type: String,
@@ -33,6 +45,27 @@ Schema.Competition = new SimpleSchema({
     location: {
         type: Schema.Address,
         optional: true
+    },
+    hierarchy: {
+        type: [ Schema.Group ],
+        optional: true,
+        defaultValue: [ {
+            id: "RootModern",
+            parent: "Root",
+            text: "Modern"
+        }, {
+            id: "RootLatin",
+            parent: "Root",
+            text: "Latin"
+        }, {
+            id: "RootLatinAmateur",
+            parent: "RootLatin",
+            text: "Amateur"
+        }, {
+            id: "RootLatinProfession",
+            parent: "RootLatin",
+            text: "Profession"
+        }]
     },
     createBy: {
         type: String,

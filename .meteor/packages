@@ -34,3 +34,4 @@ insecure
 accounts-password
 raix:handlebar-helpers
 momentjs:moment
+jss:jstree
