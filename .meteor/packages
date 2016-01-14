@@ -35,3 +35,4 @@ accounts-password
 raix:handlebar-helpers
 momentjs:moment
 jss:jstree
+dbernhard:jquery-ui-draggable
