@@ -141,7 +141,6 @@ if (Meteor.isClient) {
                         });
                 }
             }
-            $('#jstree').jstree('open_all');
         },
 
         'click #renameNode' : function(e) {
@@ -366,6 +365,11 @@ if (Meteor.isClient) {
 
         'mouseup': function() {
             $('body').css('cursor', 'default');
+            if (!hoverNode || !draggedCompetitor) {
+                console.log("not so good");
+                draggedCompetitor = null;
+                return;
+            }
             Competitors.update({_id: draggedCompetitor}, {
                 $set: {
                     groupId: hoverNode
