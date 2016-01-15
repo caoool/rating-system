@@ -16,7 +16,7 @@ Schema.Person = new SimpleSchema({
         optional: true
     },
     phone: {
-        type: Schema.Phone,
+        type: String,
         optional: true
     },
     email: {

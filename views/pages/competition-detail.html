@@ -89,7 +89,7 @@
                                                     <span class="input-group-btn">
                                                         <button id="addNode" type="button" class="btn btn-sm btn-white">+</button>
                                                         <button id="removeNode" type="button" class="btn btn-sm btn-white">x</button>
-                                                        <button id="renameNode" type="button" class="btn btn-sm btn-white">r</button>
+                                                        <button id="renameNode" type="button" class="btn btn-sm btn-white">e</button>
                                                     </span>
                                                 </div>
                                                 <br>
@@ -137,13 +137,15 @@
                                                                 <th>#</th>
                                                                 <th>Male</th>
                                                                 <th>Female</th>
+                                                                <th>Organization</th>
                                                                 <th class="pull-right">Action</th>
                                                             </tr>
                                                             {{#each competitors}}
                                                             <tr class="ui-draggable" draggable="true" id="{{_id}}">
                                                                 <td>1</td>
-                                                                <td><a data-toggle="tab" href="#" class="client-link">{{competitor1.name}}</a></td>
-                                                                <td><a data-toggle="tab" href="#" class="client-link">{{competitor2.name}}</a></td>
+                                                                <td><a id="{{_id}}" data-toggle="tab" href="#" class="client-link comp">{{competitor1.name}}</a></td>
+                                                                <td><a id="{{_id}}" data-toggle="tab" href="#" class="client-link comp">{{competitor2.name}}</a></td>
+                                                                <td><a id="{{_id}}" data-toggle="tab" href="#" class="client-link org">Organiztion</a></td>
                                                                 <td><a id="{{_id}}" class="pull-right removeCompetitor" type="button">x</a></td>
                                                             </tr>
                                                             {{/each}}
@@ -171,13 +173,15 @@
                                                                 <th>#</th>
                                                                 <th>Name</th>
                                                                 <th>Phone</th>
+                                                                <th>Organization</th>
                                                                 <th class="pull-right">Action</th>
                                                             </tr>
                                                             {{#each judges}}
                                                                 <tr class="ui-draggable" draggable="true" id="{{_id}}">
                                                                     <td>1</td>
-                                                                    <td><a data-toggle="tab" href="#" class="client-link">{{name}}</a></td>
-                                                                    <td><a data-toggle="tab" href="#" class="client-link">{{phone}}</a></td>
+                                                                    <td><a id="{{_id}}" data-toggle="tab" href="#" class="client-link judge">{{name}}</a></td>
+                                                                    <td><a id="{{_id}}" data-toggle="tab" href="#" class="client-link judge">{{phone}}</a></td>
+                                                                    <td><a data-toggle="tab" href="#" class="client-link">Organiztion</a></td>
                                                                     <td><a id="{{_id}}" class="pull-right removeJudge" type="button">x</a></td>
                                                                 </tr>
                                                             {{/each}}
@@ -202,7 +206,155 @@
                                         </div>
                                         <div class="panel-body">
                                             <div class="tab-content">
-                                                <p class="small"></p>
+                                                <p class="small"><i class="fa fa-mouse-pointer"></i> Pick something to see detail.</p>
+                                                {{#with competitor}}
+                                                    <form id="{{_id}}" class="form-group updateCompetitor">
+                                                        <br>
+                                                        <h4 align="right">Competitor 1</h4>
+                                                        <div class="form-group row">
+                                                            <input name="name1" type="text" placeholder="Name." class="form-control" style="border-top:none;border-left:none;border-right:none;" value="{{competitor1.name}}" required>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-6">
+                                                                <div class="radio radio-info radio-inline control-label">
+                                                                    <input type="radio" value="male" checked/>
+                                                                    <label for="inlineRadio1"> M. </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="radio radio-danger radio-inline control-label">
+                                                                    <input type="radio" value="female" disabled/>
+                                                                    <label for="inlineRadio2"> F. </label>
+                                                                </div>
+                                                            </div>
+                                                        </div><br>
+                                                        <div class="form-group row">
+                                                            <input name="phone1" type="text" placeholder="Phone." class="form-control" style="border-top:none;border-left:none;border-right:none;" value="{{competitor1.phone}}">
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <input name="city1" type="text" placeholder="City." class="form-control" style="text-align: right;border-top:none;border-left:none;border-right:none;" value="{{competitor1.address.city}}">
+                                                            <input name="country1" type="text" placeholder="Country." class="form-control" style="text-align: right;border-top:none;border-left:none;border-right:none;" value="{{competitor1.address.country}}">
+                                                        </div>
+                                                        <br>
+                                                        <h4 align="right">Competitor 2</h4>
+                                                        <div class="form-group row">
+                                                            <input name="name2" type="text" placeholder="Name." class="form-control" style="border-top:none;border-left:none;border-right:none;" value="{{competitor2.name}}" required>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-6">
+                                                                <div class="radio radio-info radio-inline control-label">
+                                                                    <input type="radio" value="male" name="gender" disabled/>
+                                                                    <label for="inlineRadio1"> M. </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="radio radio-danger radio-inline control-label">
+                                                                    <input type="radio" value="female" name="gender" checked/>
+                                                                    <label for="inlineRadio2"> F. </label>
+                                                                </div>
+                                                            </div>
+                                                        </div><br>
+                                                        <div class="form-group row">
+                                                            <input name="phone2" type="text" placeholder="Phone." class="form-control" style="border-top:none;border-left:none;border-right:none;" value="{{competitor2.phone}}">
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <input name="city2" type="text" placeholder="City." class="form-control" style="text-align: right;border-top:none;border-left:none;border-right:none;" value="{{competitor2.address.city}}">
+                                                            <input name="country2" type="text" placeholder="Country." class="form-control" style="text-align: right;border-top:none;border-left:none;border-right:none;" value="{{competitor2.address.country}}">
+                                                        </div>
+                                                        <br>
+                                                        <h4 align="right">Organization</h4>
+                                                        <div class="form-group row">
+                                                            <input name="org" type="text" placeholder="Individual." class="form-control" style="border-top:none;border-left:none;border-right:none;" value="{{organization}}" disabled>
+                                                        </div>
+                                                        <br><br>
+                                                        <button class="btn btn-circle btn-primary pull-right" type="submit"><i class="fa fa-check"></i></button>
+                                                    </form>
+                                                {{/with}}
+                                                {{#with judge}}
+                                                    <form id="{{_id}}" class="form-group updateJudge">
+                                                        <br>
+                                                        <h4 align="right">Judge</h4>
+                                                        <div class="form-group row">
+                                                            <input name="name" type="text" placeholder="Name." class="form-control" style="border-top:none;border-left:none;border-right:none;" value="{{name}}" required>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-6">
+                                                                <div class="radio radio-info radio-inline control-label">
+                                                                    {{#if $eq gender "male"}}
+                                                                        <input type="radio" value="male" name="gender" checked="checked"/>
+                                                                    {{else}}
+                                                                        <input type="radio" value="male" name="gender"/>
+                                                                    {{/if}}
+                                                                    <label for="inlineRadio1"> M. </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="radio radio-info radio-inline control-label">
+                                                                    {{#if $eq gender "female"}}
+                                                                        <input type="radio" value="female" name="gender" checked="checked"/>
+                                                                    {{else}}
+                                                                        <input type="radio" value="female" name="gender"/>
+                                                                    {{/if}}
+                                                                    <label for="inlineRadio2"> F. </label>
+                                                                </div>
+                                                            </div>
+                                                        </div><br>
+                                                        <div class="form-group row">
+                                                            <input name="phone" type="text" placeholder="Phone." class="form-control" style="border-top:none;border-left:none;border-right:none;" value="{{phone}}" required>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <input name="city" type="text" placeholder="City." class="form-control" style="text-align: right;border-top:none;border-left:none;border-right:none;" value="{{address.city}}">
+                                                            <input name="country" type="text" placeholder="Country." class="form-control" style="text-align: right;border-top:none;border-left:none;border-right:none;" value="{{address.country}}">
+                                                        </div>
+                                                        <br>
+                                                        <h4 align="right">Organization</h4>
+                                                        <div class="form-group row">
+                                                            <input name="org" type="text" placeholder="Individual." class="form-control" style="border-top:none;border-left:none;border-right:none;" value="{{organization}}" disabled>
+                                                        </div>
+                                                        <br><br>
+                                                        <button class="btn btn-circle btn-primary pull-right" type="submit"><i class="fa fa-check"></i></button>
+                                                    </form>
+                                                {{/with}}
+                                                {{#with group}}
+                                                    <h4 class="pull-right">Group info</h4><br><br>
+                                                    <div class="row">
+                                                        <dl class="dl-horizontal">
+                                                            <dt>Competitors: </dt>
+                                                            <dd> {{getNumberOfCompetitorsInGroup id}} </dd>
+                                                            <dt>Judges: </dt>
+                                                            <dd> {{getNumberOfJudgesInGroup id}} </dd>
+                                                        </dl>
+                                                    </div>
+                                                    <form id="{{id}}" class="populateRounds row">
+                                                        <div class="full-height-scroll">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-hover">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <th>Round</th>
+                                                                        <th>Promote</th>
+                                                                        <th class="pull-right">Delete</th>
+                                                                    </tr>
+                                                                    {{#each rounds}}
+                                                                        <tr>
+                                                                            <td>{{@index}}</td>
+                                                                            <td>{{.}}</td>
+                                                                            <td><a id="{{@index}}" class="pull-right removeRounds" type="button">x</a></td>
+                                                                        </tr>
+                                                                    {{/each}}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <div class="input-group">
+                                                            <input id="promote" type="number" class="input input-sm form-control" placeholder="# of rounds" maxlength="3" required>
+                                                            <span class="input-group-btn">
+                                                                <button type="submit" class="btn btn-sm btn-info">Populate</button>
+                                                            </span>
+                                                        </div>
+                                                    </form>
+                                                    <br><br>
+                                                {{/with}}
                                             </div>
                                         </div>
                                     </div>

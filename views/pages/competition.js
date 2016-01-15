@@ -147,4 +147,8 @@ if (Meteor.isClient) {
             return Competitions.findOne({_id: Session.get('selectedCompetition')});
         }
     });
+
+    Template.registerHelper('getNumberOfCompetitors', function (id) {
+        return  Competitors.find({competitionId: id}).fetch().length;
+    });
 }

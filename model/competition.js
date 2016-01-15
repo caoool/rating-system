@@ -9,6 +9,10 @@ Schema.Group = new SimpleSchema({
     },
     text: {
         type: String
+    },
+    rounds: {
+        type: [ Number ],
+        optional: true
     }
 });
 
